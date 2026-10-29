@@ -1,0 +1,21 @@
+interval: 30          # seconds between checks
+cooldown: 600         # seconds before the same alert is re-sent
+send_recovery: true   # notify when an alert clears
+
+host:
+  cpu:    {warn: 80, crit: 95}   # percent
+  memory: {warn: 85, crit: 95}   # percent
+  swap:   {warn: 50, crit: 80}   # percent
+  load_per_core: {warn: 1.5, crit: 3.0}
+  disk:   {warn: 80, crit: 90}   # percent, per path below
+  disk_paths: ["/hostfs"]        # host root mounted read-only in compose
+
+containers:
+  cpu_warn: 90          # percent of one-core-normalised usage
+  mem_warn: 90          # percent of container memory limit
+  restart_delta: 2      # restarts between two polls => restart loop
+  ignore: []            # container names to skip
+
+remediation:
+  restart_unhealthy: false   # needs the Docker socket mounted read-write
+  prune_dangling_on_disk_crit: false

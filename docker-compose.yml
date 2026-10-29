@@ -1,0 +1,13 @@
+services:
+  docker-health-guard:
+    build: .
+    container_name: docker-health-guard
+    restart: unless-stopped
+    pid: host                      # lets psutil see host processes/CPU
+    env_file: .env
+    ports:
+      - "9100:9100"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro   # use :rw only if remediation is enabled
+      - /:/hostfs:ro               # host disk usage
+      - ./config.yaml:/config/config.yaml:ro
